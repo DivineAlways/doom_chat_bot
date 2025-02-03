@@ -20,25 +20,25 @@ export const models: Array<Model> = [
     apiIdentifier: 'gpt-4o',
     description: 'For complex, multi-step tasks',
   },
-    {
+  {
     id: 'gemini-pro',
     label: 'Gemini Pro',
     apiIdentifier: 'gemini-pro',
     description: 'Gemini Pro model',
   },
-    {
+  {
     id: 'gemini-ultra',
     label: 'Gemini Ultra',
     apiIdentifier: 'gemini-ultra',
     description: 'Gemini Ultra model',
   },
-    {
+  {
     id: 'gemini-2.0-pro',
     label: 'Gemini 2.0 Pro',
     apiIdentifier: 'gemini-2.0-pro',
     description: 'The most powerful model from Google.',
   },
-    {
+  {
     id: 'gemini-1.5-pro',
     label: 'Gemini 1.5 Pro',
     apiIdentifier: 'gemini-1.5-pro',

@@ -454,10 +454,8 @@ export async function POST(request: Request) {
               input: z.string().describe('The input for the Verte AI agent.'),
             }),
             execute: async ({ agentId, input }) => {
-              // Make API call to Verte AI using agentId and input
-              // Replace with your actual API call logic
               const verteAIResponse = await fetch(
-                `https://us-east1-aiplatform.googleapis.com/v1/projects/your-project-id/locations/us-east1/endpoints/${agentId}:predict`,
+                `https://us-east1-aiplatform.googleapis.com/v1/projects/gen-lang-client-0418484408/locations/us-east1/endpoints/${agentId}:predict`,
                 {
                   method: 'POST',
                   headers: {
@@ -484,8 +482,6 @@ export async function POST(request: Request) {
                 .describe('The action to perform on the URL. Options: "get page content", "take screenshot"'),
             }),
             execute: async ({ url, action }) => {
-              // Make API call to Browserbase using Playwright
-              // Replace with your actual API call logic
               const playwright = await import('playwright');
               const apiKey = process.env.BROWSERBASE_API_KEY;
 
