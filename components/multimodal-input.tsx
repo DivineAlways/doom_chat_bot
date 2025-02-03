@@ -201,7 +201,7 @@ function PureMultimodalInput({
           <SuggestedActions append={append} chatId={chatId} />
         )}
 
-      <div aria-hidden className="hidden">
+      <div aria-hidden={true} className="hidden">
         <input
           type="file"
           className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
