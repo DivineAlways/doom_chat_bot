@@ -32,6 +32,18 @@ export const models: Array<Model> = [
     apiIdentifier: 'gemini-ultra',
     description: 'Gemini Ultra model',
   },
-] as const;
+    {
+    id: 'gemini-2.0-pro',
+    label: 'Gemini 2.0 Pro',
+    apiIdentifier: 'gemini-2.0-pro',
+    description: 'The most powerful model from Google.',
+  },
+    {
+    id: 'gemini-1.5-pro',
+    label: 'Gemini 1.5 Pro',
+    apiIdentifier: 'gemini-1.5-pro',
+    description: 'The most powerful model from Google.',
+  },
+];
 
 export const DEFAULT_MODEL_NAME: string = 'gpt-4o-mini';
