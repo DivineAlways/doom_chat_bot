@@ -40,7 +40,9 @@ type AllowedTools =
   | 'createDocument'
   | 'updateDocument'
   | 'requestSuggestions'
-  | 'getWeather';
+  | 'getWeather'
+  | 'verteAI'
+  | 'browserbase'; // Add new tools
 
 const blocksTools: AllowedTools[] = [
   'createDocument',
@@ -50,7 +52,12 @@ const blocksTools: AllowedTools[] = [
 
 const weatherTools: AllowedTools[] = ['getWeather'];
 
-const allTools: AllowedTools[] = [...blocksTools, ...weatherTools];
+const allTools: AllowedTools[] = [
+  ...blocksTools,
+  ...weatherTools,
+  'verteAI',
+  'browserbase',
+]; // Add new tools
 
 export async function POST(request: Request) {
   const {
@@ -437,6 +444,89 @@ export async function POST(request: Request) {
                 kind: document.kind,
                 message: 'Suggestions have been added to the document',
               };
+            },
+          },
+          verteAI: {
+            description:
+              'Use this tool to interact with the Verte AI platform.',
+            parameters: z.object({
+              agentId: z.string().describe('The ID of the Verte AI agent to use.'),
+              input: z.string().describe('The input for the Verte AI agent.'),
+            }),
+            execute: async ({ agentId, input }) => {
+              // Make API call to Verte AI using agentId and input
+              // Replace with your actual API call logic
+              const verteAIResponse = await fetch(
+                `https://us-east1-aiplatform.googleapis.com/v1/projects/your-project-id/locations/us-east1/endpoints/${agentId}:predict`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${process.env.GOOGLE_CLOUD_API_KEY}`, // Use your API key
+                  },
+                  body: JSON.stringify({
+                    instances: [{ content: input }],
+                  }),
+                },
+              );
+
+              const verteAIData = await verteAIResponse.json();
+              return verteAIData;
+            },
+          },
+          browserbase: {
+            description:
+              'Use this tool to interact with the Browserbase platform.',
+            parameters: z.object({
+              url: z.string().describe('The URL to interact with.'),
+              action: z
+                .string()
+                .describe('The action to perform on the URL. Options: "get page content", "take screenshot"'),
+            }),
+            execute: async ({ url, action }) => {
+              // Make API call to Browserbase using Playwright
+              // Replace with your actual API call logic
+              const { sync_playwright, Playwright } = await import('playwright');
+              const apiKey = process.env.BROWSERBASE_API_KEY;
+
+              if (!apiKey) {
+                return {
+                  error: 'Browserbase API key not found in environment variables',
+                };
+              }
+
+              let browserbaseResponse = null;
+
+              try {
+                await sync_playwright().then(async (playwright: Playwright) => {
+                  const chromium = playwright.chromium;
+                  const browser = chromium.connectOverCDP(
+                    `wss://connect.browserbase.com?apiKey=${apiKey}`,
+                  );
+                  const context = browser.contexts[0];
+                  const page = context.pages[0];
+
+                  await page.goto(url);
+
+                  if (action === 'get page content') {
+                    const content = await page.content();
+                    browserbaseResponse = { content };
+                  } else if (action === 'take screenshot') {
+                    const screenshot = await page.screenshot({
+                      type: 'png',
+                      encoding: 'base64',
+                    });
+                    browserbaseResponse = { screenshot };
+                  }
+
+                  await browser.close();
+                });
+              } catch (error) {
+                console.error('Error interacting with Browserbase:', error);
+                return { error: 'Failed to interact with Browserbase' };
+              }
+
+              return browserbaseResponse;
             },
           },
         },
