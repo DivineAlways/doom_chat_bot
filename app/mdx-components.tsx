@@ -1,6 +1,7 @@
 'use client';
 
 import type { ComponentProps } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const components: Record<string, React.FC<ComponentProps<any>>> = {
   h1: ({ className, ...props }) => (
@@ -121,7 +122,7 @@ interface MdxProps {
 export function Mdx({ code }: MdxProps) {
   return (
     <div className="mdx prose dark:prose-invert">
-      {code}
+      <ReactMarkdown components={components}>{code}</ReactMarkdown>
     </div>
   );
 }
