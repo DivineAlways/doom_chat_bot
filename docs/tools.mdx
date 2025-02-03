@@ -1,0 +1,133 @@
+# Tools and Integrations
+
+## Available Tools
+
+### Document Management
+
+#### Create Document
+Creates new documents with different types:
+```typescript
+createDocument({
+  title: "My Document",
+  kind: "text" | "code" | "image"
+})
+```
+
+#### Update Document
+Updates existing documents:
+```typescript
+updateDocument({
+  id: "doc-id",
+  description: "Changes to make"
+})
+```
+
+#### Request Suggestions
+Get AI-powered suggestions for your documents:
+```typescript
+requestSuggestions({
+  documentId: "doc-id"
+})
+```
+
+### External Integrations
+
+#### Verte AI
+Access Google Cloud AI capabilities:
+```typescript
+verteAI({
+  agentId: "your-agent-id",
+  input: "Your input text"
+})
+```
+
+#### Browserbase
+Web automation and content extraction:
+```typescript
+browserbase({
+  url: "https://example.com",
+  action: "get page content" | "take screenshot"
+})
+```
+
+#### Weather Data
+Get real-time weather information:
+```typescript
+getWeather({
+  latitude: number,
+  longitude: number
+})
+```
+
+## Integration Setup
+
+### Environment Variables
+Required environment variables:
+```env
+GOOGLE_CLOUD_API_KEY=your_key
+BROWSERBASE_API_KEY=your_key
+```
+
+### Authentication
+Most tools require authentication:
+1. Set up API keys
+2. Configure environment
+3. Test connections
+
+## Usage Examples
+
+### Document Creation
+```typescript
+// Create a text document
+createDocument({
+  title: "My Notes",
+  kind: "text"
+})
+
+// Generate an image
+createDocument({
+  title: "AI Art",
+  kind: "image"
+})
+```
+
+### Web Automation
+```typescript
+// Capture screenshot
+browserbase({
+  url: "https://example.com",
+  action: "take screenshot"
+})
+
+// Extract content
+browserbase({
+  url: "https://example.com",
+  action: "get page content"
+})
+```
+
+### Weather Data
+```typescript
+// Get current weather
+getWeather({
+  latitude: 40.7128,
+  longitude: -74.0060
+})
+```
+
+## Best Practices
+
+1. Error Handling
+   - Always check responses
+   - Handle failures gracefully
+   - Implement retries
+
+2. Rate Limiting
+   - Respect API limits
+   - Implement throttling
+   - Cache when possible
+
+3. Security
+   - Protect API keys
+   - Validate inputs
+   - Sanitize outputs
