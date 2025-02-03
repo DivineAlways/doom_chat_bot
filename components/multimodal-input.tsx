@@ -201,18 +201,16 @@ function PureMultimodalInput({
           <SuggestedActions append={append} chatId={chatId} />
         )}
 
-      {typeof window !== 'undefined' && (
-        <div className="hidden">
-          <input
-            type="file"
-            className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
-            ref={fileInputRef}
-            multiple
-            onChange={handleFileChange}
-            tabIndex={-1}
-          />
-        </div>
-      )}
+      <div aria-hidden className="hidden">
+        <input
+          type="file"
+          className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
+          ref={fileInputRef}
+          multiple
+          onChange={handleFileChange}
+          tabIndex={-1}
+        />
+      </div>
 
       {(attachments.length > 0 || uploadQueue.length > 0) && (
         <div className="flex flex-row gap-2 overflow-x-scroll items-end">
