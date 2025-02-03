@@ -455,15 +455,14 @@ export async function POST(request: Request) {
             }),
             execute: async ({ agentId, input }) => {
               // Make API call to Verte AI using agentId and input
-              // Make API call to Verte AI using agentId and input
               // Replace with your actual API call logic
               const verteAIResponse = await fetch(
-                `https://us-east1-aiplatform.googleapis.com/v1/projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}/locations/us-east1/endpoints/${agentId}:predict`,
+                `https://us-east1-aiplatform.googleapis.com/v1/projects/your-project-id/locations/us-east1/endpoints/${agentId}:predict`,
                 {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${process.env.GOOGLE_CLOUD_API_KEY}`,
+                    Authorization: `Bearer ${process.env.GOOGLE_CLOUD_API_KEY}`, // Use your API key
                   },
                   body: JSON.stringify({
                     instances: [{ content: input }],
@@ -499,8 +498,7 @@ export async function POST(request: Request) {
               let browserbaseResponse = null;
 
               try {
-                const { default: playwright } = await import('playwright');
-                await playwright(async (playwright: Playwright) => {
+                await playwright().then(async (playwright: Playwright) => {
                   const chromium = playwright.chromium;
                   const browser = chromium.connectOverCDP(
                     `wss://connect.browserbase.com?apiKey=${apiKey}`,
