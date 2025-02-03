@@ -67,11 +67,11 @@ const components: Record<string, React.FC<ComponentProps<any>>> = {
       {...props}
     />
   ),
-  img: ({ className, alt, ...props }) => (
+  img: ({ className, alt, ...props }: { className?: string; alt?: string; src?: string }) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       className="rounded-md border"
-      alt={alt}
+      alt={alt || ''}
       {...props}
     />
   ),
