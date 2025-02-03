@@ -4,13 +4,19 @@ import { getDocFromPath } from '@/lib/docs';
 export default async function DocsPage() {
   const doc = await getDocFromPath('getting-started.mdx');
   
+  if (!doc?.body?.code) {
+    return <div>Failed to load documentation</div>;
+  }
+
   return (
     <article className="max-w-none">
       <Mdx code={doc.body.code} />
     </article>
   );
 }
-import { MDXRemote } from 'next-mdx-remote/rsc';
+'use client';
+
+import { MDXRemote } from 'next-mdx-remote';
 
 interface MdxProps {
   code: string;
@@ -18,44 +24,42 @@ interface MdxProps {
 
 export function Mdx({ code }: MdxProps) {
   return (
-    <MDXRemote
-      source={code}
-      options={{
-        mdxOptions: {
-          remarkPlugins: [],
-          rehypePlugins: [],
-        },
-      }}
-    />
+    <div className="prose dark:prose-invert max-w-none">
+      <MDXRemote
+        source={code}
+      />
+    </div>
   );
 }
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { compileMDX } from 'next-mdx-remote/rsc';
+import { serialize } from 'next-mdx-remote/serialize';
 
 export async function getDocFromPath(path: string) {
-  const source = readFileSync(
-    join(process.cwd(), 'docs', path),
-    'utf-8'
-  );
+  try {
+    const source = readFileSync(
+      join(process.cwd(), 'docs', path),
+      'utf-8'
+    );
 
-  const { content } = await compileMDX({
-    source,
-    options: { 
+    const mdxSource = await serialize(source, {
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [],
         rehypePlugins: [],
       }
-    }
-  });
+    });
 
-  return {
-    body: {
-      code: content,
-      raw: source,
-    }
-  };
+    return {
+      body: {
+        code: source,
+        raw: source,
+      }
+    };
+  } catch (error) {
+    console.error('Error loading doc:', error);
+    return null;
+  }
 }
 # Features & Tools Guide
 
