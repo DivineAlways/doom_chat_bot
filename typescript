@@ -57,3 +57,135 @@ export async function getDocFromPath(path: string) {
     }
   };
 }
+# Features & Tools Guide
+
+## Chat Interface
+
+### Real-time AI Conversations
+- Start new conversations with the "+" button
+- Multiple AI models available
+- Real-time streaming responses
+- Code highlighting and execution
+- File attachment support
+
+### File Management
+- Upload files via drag & drop or click
+- Supported formats:
+  - Images (PNG, JPG, GIF)
+  - Text files
+  - Code files
+- Files are automatically processed by AI
+
+### Code Generation
+- Request code in multiple languages
+- Syntax highlighting
+- Code execution capability
+- Version control integration
+
+## Document Management
+
+### Creating Documents
+1. Use the "Create Document" command
+2. Choose document type:
+   - Text
+   - Code
+   - Image
+3. Add title and content
+4. Auto-save enabled
+
+### Version Control
+- All changes are versioned
+- View change history
+- Revert to previous versions
+- Compare different versions
+
+### Collaboration
+- Share documents with team
+- Real-time updates
+- Comment and suggest changes
+- Track changes history
+
+## External Tools
+
+### Weather Integration
+```typescript
+// Get weather for location
+getWeather({
+  latitude: 40.7128,
+  longitude: -74.0060
+})
+```
+
+### Verte AI
+```typescript
+// Use Google Cloud AI
+verteAI({
+  agentId: "your-agent-id",
+  input: "Your prompt"
+})
+```
+
+### Browserbase
+```typescript
+// Web automation
+browserbase({
+  url: "https://example.com",
+  action: "take screenshot"
+})
+```
+
+## Best Practices
+
+### Chat Interactions
+1. Be specific with prompts
+2. Use appropriate AI models
+3. Leverage file attachments
+4. Review generated content
+
+### Document Organization
+1. Use clear naming
+2. Regular versioning
+3. Proper documentation
+4. Consistent formatting
+
+### Security
+1. API key management
+2. Access control
+3. Data validation
+4. Regular backups
+
+## Troubleshooting
+
+### Common Issues
+1. Connection problems
+   - Check internet connection
+   - Verify API keys
+   - Server status
+
+2. File Upload Issues
+   - Check file size limits
+   - Verify file formats
+   - Clear cache if needed
+
+3. Tool Integration
+   - Verify credentials
+   - Check API quotas
+   - Review error logs
+
+### Getting Help
+- Documentation
+- Support channels
+- Community forums
+- Issue tracking
+import { Mdx } from '@/components/docs/mdx';
+import { getDocFromPath } from '@/lib/docs';
+
+export default async function FeaturesPage() {
+  const doc = await getDocFromPath('features.mdx');
+  
+  return (
+    <article className="max-w-none">
+      <Mdx code={doc.body.code} />
+    </article>
+  );
+}
