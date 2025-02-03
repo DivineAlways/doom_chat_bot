@@ -1,9 +1,8 @@
 'use client';
 
-import type { MDXComponents } from 'mdx/types';
-import { useMDXComponent } from 'next-contentlayer/hooks';
+import type { ComponentProps } from 'react';
 
-const components: MDXComponents = {
+const components: Record<string, React.FC<ComponentProps<any>>> = {
   h1: ({ className, ...props }) => (
     <h1
       className="mt-2 scroll-m-20 text-4xl font-bold tracking-tight"
@@ -120,11 +119,9 @@ interface MdxProps {
 }
 
 export function Mdx({ code }: MdxProps) {
-  const Component = useMDXComponent(code);
-
   return (
-    <div className="mdx">
-      <Component components={components} />
+    <div className="mdx prose dark:prose-invert">
+      {code}
     </div>
   );
 }
