@@ -482,41 +482,21 @@ export async function POST(request: Request) {
                 .describe('The action to perform on the URL. Options: "get page content", "take screenshot"'),
             }),
             execute: async ({ url, action }) => {
-              const playwright = await import('playwright');
               const apiKey = process.env.BROWSERBASE_API_KEY;
-
-              if (!apiKey) {
-                return {
-                  error: 'Browserbase API key not found in environment variables',
-                };
-              }
-
               let browserbaseResponse = null;
 
               try {
-                await playwright().then(async (playwright: Playwright) => {
-                  const chromium = playwright.chromium;
-                  const browser = chromium.connectOverCDP(
-                    `wss://connect.browserbase.com?apiKey=${apiKey}`,
-                  );
-                  const context = browser.contexts[0];
-                  const page = context.pages[0];
-
-                  await page.goto(url);
-
-                  if (action === 'get page content') {
-                    const content = await page.content();
-                    browserbaseResponse = { content };
-                  } else if (action === 'take screenshot') {
-                    const screenshot = await page.screenshot({
-                      type: 'png',
-                      encoding: 'base64',
-                    });
-                    browserbaseResponse = { screenshot };
-                  }
-
-                  await browser.close();
+                // Make a direct API call to Browserbase instead of using Playwright
+                const response = await fetch(`https://api.browserbase.com/v1/${action}`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`,
+                  },
+                  body: JSON.stringify({ url }),
                 });
+
+                browserbaseResponse = await response.json();
               } catch (error) {
                 console.error('Error interacting with Browserbase:', error);
                 return { error: 'Failed to interact with Browserbase' };
