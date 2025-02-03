@@ -1,0 +1,59 @@
+import { Mdx } from '@/components/docs/mdx';
+import { getDocFromPath } from '@/lib/docs';
+
+export default async function DocsPage() {
+  const doc = await getDocFromPath('getting-started.mdx');
+  
+  return (
+    <article className="max-w-none">
+      <Mdx code={doc.body.code} />
+    </article>
+  );
+}
+import { MDXRemote } from 'next-mdx-remote/rsc';
+
+interface MdxProps {
+  code: string;
+}
+
+export function Mdx({ code }: MdxProps) {
+  return (
+    <MDXRemote
+      source={code}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [],
+          rehypePlugins: [],
+        },
+      }}
+    />
+  );
+}
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { compileMDX } from 'next-mdx-remote/rsc';
+
+export async function getDocFromPath(path: string) {
+  const source = readFileSync(
+    join(process.cwd(), 'docs', path),
+    'utf-8'
+  );
+
+  const { content } = await compileMDX({
+    source,
+    options: { 
+      parseFrontmatter: true,
+      mdxOptions: {
+        remarkPlugins: [],
+        rehypePlugins: [],
+      }
+    }
+  });
+
+  return {
+    body: {
+      code: content,
+      raw: source,
+    }
+  };
+}
