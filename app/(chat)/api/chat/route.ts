@@ -457,12 +457,12 @@ export async function POST(request: Request) {
               // Make API call to Verte AI using agentId and input
               // Replace with your actual API call logic
               const verteAIResponse = await fetch(
-                `https://us-east1-aiplatform.googleapis.com/v1/projects/your-project-id/locations/us-east1/endpoints/${agentId}:predict`,
+                `https://us-east1-aiplatform.googleapis.com/v1/projects/${process.env.GOOGLE_CLOUD_PROJECT_ID}/locations/us-east1/endpoints/${agentId}:predict`,
                 {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${process.env.GOOGLE_CLOUD_API_KEY}`, // Use your API key
+                    Authorization: `Bearer ${process.env.GOOGLE_CLOUD_API_KEY}`,
                   },
                   body: JSON.stringify({
                     instances: [{ content: input }],
