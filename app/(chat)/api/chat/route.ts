@@ -486,7 +486,7 @@ export async function POST(request: Request) {
             execute: async ({ url, action }) => {
               // Make API call to Browserbase using Playwright
               // Replace with your actual API call logic
-              const { sync_playwright, Playwright } = await import('playwright');
+              const playwright = await import('playwright');
               const apiKey = process.env.BROWSERBASE_API_KEY;
 
               if (!apiKey) {
@@ -498,7 +498,8 @@ export async function POST(request: Request) {
               let browserbaseResponse = null;
 
               try {
-                await sync_playwright().then(async (playwright: Playwright) => {
+                const { default: playwright } = await import('playwright');
+                await playwright(async (playwright: Playwright) => {
                   const chromium = playwright.chromium;
                   const browser = chromium.connectOverCDP(
                     `wss://connect.browserbase.com?apiKey=${apiKey}`,
