@@ -26,15 +26,15 @@ export default function HomePage() {
       </ul>
       <h2 className="text-2xl font-semibold mb-4">Community Voices</h2>
       <blockquote className="mb-4">
-        "The Low Perry Community Hub has been an incredible resource for learning and collaborating on ally projects. It's opened up a whole new world of possibilities for me."
+        &quot;The Low Perry Community Hub has been an incredible resource for learning and collaborating on ally projects. It&apos;s opened up a whole new world of possibilities for me.&quot;
         <footer className="mt-2">— Sarah Johnson, Web Developer</footer>
       </blockquote>
       <blockquote className="mb-4">
-        "I've learned so much from the courses and community here. The old school approach combined with modern technology is refreshing and effective."
+        &quot;I&apos;ve learned so much from the courses and community here. The old school approach combined with modern technology is refreshing and effective.&quot;
         <footer className="mt-2">— Michael Chen, UX Designer</footer>
       </blockquote>
       <blockquote className="mb-4">
-        "The projects I've worked on through Low Perry Community Hub have not only improved my skills but also made a real difference in people's lives. It's been incredibly rewarding."
+        &quot;The projects I&apos;ve worked on through Low Perry Community Hub have not only improved my skills but also made a real difference in people&apos;s lives. It&apos;s been incredibly rewarding.&quot;
         <footer className="mt-2">— Emily Rodriguez, Software Engineer</footer>
       </blockquote>
       <h2 className="text-2xl font-semibold mb-4">Our Courses</h2>
